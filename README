@@ -1,0 +1,10 @@
+OPAL's Playable Almost Indefectibly. OPAL is a rogue-like dungeon crawler. Get
+flag info using ./opal.out -h.
+
+Damage is calculated as the sum of dice rolls for the player's base damage and
+all equipped items.
+
+The monster and object parsing is implemented in Yacc and (F)Lex, so compilation
+requires them.
+
+Requires support for C++17 and POSIX threads.
