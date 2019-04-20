@@ -10,3 +10,5 @@ The NPC and object parsing is implemented in Yacc and (F)Lex, so compilation
 requires them.
 
 Requires support for C++17 and POSIX threads.
+
+See my coms327 repository for the previous development history of OPAL.
