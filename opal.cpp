@@ -29,8 +29,6 @@
 #include "parse.h"
 #include "turn.h"
 
-static void	usage(int const, std::string const &);
-
 static bool	colors();
 
 static void	print_deathscreen(WINDOW *const);
@@ -39,19 +37,6 @@ static void	print_winscreen2(WINDOW *const);
 
 static bool	is_number(std::string const &);
 
-static char const *const PROGRAM_NAME = "opal";
-
-static struct option const long_opts[] = {
-	{"nodescs", no_argument, NULL, 'd'},
-	{"help", no_argument, NULL, 'h'},
-	{"load", no_argument, NULL, 'l'},
-	{"numnpcs", required_argument, NULL, 'n'},
-	{"numobjs", required_argument, NULL, 'o'},
-	{"save", no_argument, NULL, 's'},
-	{"seed", required_argument, NULL, 'z'},
-	{NULL, 0, NULL, 0}
-};
-
 npc player;
 
 int
@@ -59,38 +44,42 @@ main(int const argc, char *const argv[])
 {
 	WINDOW *win;
 	char *end;
-	int ch;
-	bool load = false;
-	bool save = false;
-	bool no_descs = false;
-	unsigned int numnpcs = std::numeric_limits<unsigned int>::max();
-	unsigned int numobjs = std::numeric_limits<unsigned int>::max();
-	std::string const name = (argc == 0) ? PROGRAM_NAME : argv[0];
+	char const *const usage = "usage: opal [-ls] [-n count] [-o count] [-z seed]";
+	int opt;
+	unsigned int numnpcs;
+	unsigned int numobjs;
+	bool load;
+	bool save;
 
-	while ((ch = getopt_long(argc, argv, "dhln:o:sz:", long_opts, NULL)) != -1) {
-		switch(ch) {
-		case 'd':
-			no_descs = true;
-			break;
-		case 'h':
-			usage(EXIT_SUCCESS, name);
-			break;
+	numnpcs = std::numeric_limits<unsigned int>::max();
+	numobjs = std::numeric_limits<unsigned int>::max();
+	load = false;
+	save = false;
+
+	while ((opt = getopt(argc, argv, "ln:o:sz:")) != -1) {
+		switch(opt) {
 		case 'l':
 			load = true;
 			break;
 		case 'n':
 			numnpcs = (unsigned int)strtoul(optarg, &end, 10);
 
-			if (optarg == end || errno == EINVAL || errno == ERANGE) {
+			if (errno == EINVAL || errno == ERANGE) {
 				err(1, "numnpcs invalid");
+			} else if (optarg == end) {
+				errx(1, "numnpcs invalid");
 			}
+
 			break;
 		case 'o':
 			numobjs = (unsigned int)strtoul(optarg, &end, 10);
 
-			if (optarg == end || errno == EINVAL || errno == ERANGE) {
+			if (errno == EINVAL || errno == ERANGE) {
 				err(1, "numobjs invalid");
+			} else if (optarg == end) {
+				errx(1, "numobjs invalid");
 			}
+
 			break;
 		case 's':
 			save = true;
@@ -99,17 +88,24 @@ main(int const argc, char *const argv[])
 			if (is_number(optarg)) {
 				rr = ranged_random(strtoul(optarg, &end, 10));
 
-				if (optarg == end || errno == EINVAL
-					|| errno == ERANGE) {
+				if (errno == EINVAL || errno == ERANGE) {
 					err(1, "seed %s invalid", optarg);
+				} else if (optarg == end) {
+					errx(1, "seed %s invalid", optarg);
 				}
 			} else {
 				rr = ranged_random(optarg);
 			}
 			break;
 		default:
-			usage(EXIT_FAILURE, name);
+			errx(1, usage);
 		}
+	}
+
+	if (optind < argc) {
+		fprintf(stderr, "%s: invalid option -- '%s'\n", argv[0],
+			argv[optind]);
+		errx(1, usage);
 	}
 
 	if (numnpcs == std::numeric_limits<unsigned int>::max()) {
@@ -127,10 +123,8 @@ main(int const argc, char *const argv[])
 	}
 
 	/* requires colors initialized */
-	if (!no_descs) {
-		parse_npc_file();
-		parse_obj_file();
-	}
+	parse_npc_file();
+	parse_obj_file();
 
 	if (refresh() == ERR) {
 		errx(1, "refresh from initscr");
@@ -232,30 +226,6 @@ main(int const argc, char *const argv[])
 	}
 
 	return EXIT_SUCCESS;
-}
-
-static void
-usage(int const status, std::string const &name)
-{
-	std::cout << "Usage: " << name << " [OPTION]... \n\n";
-
-	if (status != EXIT_SUCCESS) {
-		std::cerr << "Try '" << name <<
-			" --help' for more information.\n";
-	} else {
-		std::cout << "OPAL's Playable Almost Indefectibly.\n\n"
-			<< "Traverse a generated dungeon.\n\n"
-			<< "Options:\n\
-  -d, --nodescs         don't parse description files\n\
-  -h, --help            display this help text and exit\n\
-  -l, --load            load dungeon file\n\
-  -n, --numnpcs=[NUM]   number of npcs per floor\n\
-  -o, --numobjs=[NUM]   number of objs per floor\n\
-  -s, --save            save dungeon file\n\
-  -z, --seed=[SEED]     set rand seed, takes integer or string\n";
-	}
-
-	exit(status);
 }
 
 static bool

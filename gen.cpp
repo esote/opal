@@ -35,11 +35,11 @@ static void	init_fresh();
 static void	place_player();
 static int	valid_player(int const, int const);
 
-static char const *const DIRECTORY = "/.rlg327";
+static char const *const DIRECTORY = "/.opal";
 static char const *const FILEPATH = "/dungeon";
 static int constexpr DF_L = 8;
 
-static char const *const MARK = "RLG327-S2019";
+static char const *const MARK = "OPAL-DUNGEON";
 static int constexpr MARK_L = 12;
 
 static int constexpr NEW_ROOM_COUNT = 8;
@@ -57,7 +57,7 @@ static uint16_t stair_dn_count;
 tile tiles[HEIGHT][WIDTH];
 
 std::string
-rlg_path()
+opal_path()
 {
 	char *home;
 #ifdef _GNU_SOURCE
@@ -84,7 +84,7 @@ save_dungeon()
 	FILE *f;
 	bool ret;
 
-	std::string path = rlg_path();
+	std::string path = opal_path();
 
 	if (stat(path.c_str(), &st) == -1) {
 		if (errno == ENOENT) {
@@ -116,7 +116,7 @@ load_dungeon()
 {
 	FILE *f;
 	bool ret;
-	std::string path = rlg_path() + FILEPATH;
+	std::string path = opal_path() + FILEPATH;
 
 	if (!(f = fopen(path.c_str(), "r"))) {
 		err(1, "load fopen");

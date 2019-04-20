@@ -42,19 +42,19 @@ BOOLEAN	TRUE|FALSE
 %Start desc
 %%
 
-^"RLG327 MONSTER DESCRIPTION 1"$	{
+^"OPAL NPC DESCRIPTION 1"$	{
 						in_n = true;
 						in_o = false;
 						return BEGIN_NPC_FILE;
 					}
-^"RLG327 OBJECT DESCRIPTION 1"$		{
+^"OPAL OBJ DESCRIPTION 1"$		{
 						in_o = true;
 						in_n = false;
 						return BEGIN_OBJ_FILE;
 					}
 
-^"BEGIN MONSTER"$	{ c_npc = {}; return BEGIN_NPC; }
-^"BEGIN OBJECT"$	{ c_obj = {}; return BEGIN_OBJ; }
+^"BEGIN NPC"$	{ c_npc = {}; return BEGIN_NPC; }
+^"BEGIN OBJ"$	{ c_obj = {}; return BEGIN_OBJ; }
 
 ^"END"$	{
 		if (in_n) npcs_parsed.push_back(c_npc);

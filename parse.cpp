@@ -24,8 +24,8 @@
 #include "globs.h"
 #include "y.tab.h"
 
-static char const *const NPC_FILE = "/monster_desc.txt";
-static char const *const OBJ_FILE = "/object_desc.txt";
+static char const *const NPC_FILE = "/npc_desc";
+static char const *const OBJ_FILE = "/obj_desc";
 
 static char const *const color_map_r[] = {
 	"BLACK",
@@ -72,15 +72,10 @@ void
 parse_npc_file()
 {
 	struct stat st;
-	std::string const path = rlg_path() + NPC_FILE;
+	std::string const path = opal_path() + NPC_FILE;
 
 	if (stat(path.c_str(), &st) == -1) {
-		if (errno == ENOENT) {
-			err(1, "no npc file, run with '-m' to skip "
-				"npc file parsing");
-		} else {
-			err(1, "stat npc file");
-		}
+		err(1, "npc description file");
 	}
 
 	yyin = fopen(path.c_str(), "r");
@@ -102,15 +97,10 @@ void
 parse_obj_file()
 {
 	struct stat st;
-	std::string const path = rlg_path() + OBJ_FILE;
+	std::string const path = opal_path() + OBJ_FILE;
 
 	if (stat(path.c_str(), &st) == -1) {
-		if (errno == ENOENT) {
-			err(1, "no object file, run with '-o' to skip object "
-				"parsing");
-		} else {
-			err(1, "stat object file");
-		}
+		err(1, "object description file");
 	}
 
 	yyin = fopen(path.c_str(), "r");

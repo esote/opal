@@ -20,7 +20,7 @@
 
 #include <string>
 
-std::string	rlg_path();
+std::string	opal_path();
 
 /* io */
 bool	save_dungeon();
