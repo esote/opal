@@ -37,6 +37,8 @@ bool in_o;
 npc c_npc;
 obj c_obj;
 
+static int constexpr line_max = 77;
+
 static std::unordered_map<std::string, int> const color_map = {
 	{"BLACK", COLOR_PAIR(COLOR_BLACK)},
 	{"BLUE", COLOR_PAIR(COLOR_BLUE)},
@@ -147,7 +149,7 @@ npc_keywords
 
 npc_keyword
 	: ABIL abil
-	| COLOR color
+	| COLOR COLORS	{ c_npc.color = color_map.at($2); }
 	| DAM STR	{ c_npc.dam = parse_dice($2); }
 	| DESC desc DESC_END
 	| HP STR	{ c_npc.hp = parse_dice_value($2); }
@@ -179,7 +181,7 @@ obj_keywords
 obj_keyword
 	: ART BOOLEAN	{ c_obj.art = std::strcmp($2, "TRUE") == 0; }
 	| ATTR STR	{ c_obj.attr = parse_dice_value($2); }
-	| COLOR color
+	| COLOR COLORS	{ c_obj.color = color_map.at($2); }
 	| DAM STR	{ c_obj.dam = parse_dice($2); }
 	| DEF STR	{ c_obj.def = parse_dice_value($2); }
 	| DESC desc DESC_END
@@ -207,20 +209,18 @@ name
 			}
 	;
 
-color
-	: COLORS	{
-				if (in_n) c_npc.color = color_map.at($1);
-				if (in_o) c_obj.color = color_map.at($1);
-			}
-	| color COLORS
-	;
-
 desc
 	: DESC_INNER		{
+					if (strlen($1) > line_max + 1) {
+						yyerror("line too long");
+					}
 					if (in_n) c_npc.desc += $1;
 					if (in_o) c_obj.desc += $1;
 				}
 	| desc DESC_INNER	{
+					if (strlen($2) > line_max + 1) {
+						yyerror("line too long");
+					}
 					if (in_n) c_npc.desc += $2;
 					if (in_o) c_obj.desc += $2;
 				}
@@ -264,6 +264,11 @@ parse_dice(char *const s)
 	}
 
 	d.sides = (uint64_t)std::atoll(p);
+
+	if (d.sides == 1 && d.dice != 0) {
+		errx(1, "instead of using multiple 1-sided die, add them as "
+			"the base");
+	}
 
 	return d;
 }

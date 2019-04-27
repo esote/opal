@@ -33,7 +33,7 @@ opal: $(src) $(hdr)
 debug: $(src) $(hdr)
 	lex -v -d parse.l
 	yacc -v -d parse.y
-	$(CXX) $(CFLAGS) -o opal.out $(src) $(src_nodep) $(CFLAGS_END)
+	$(CXX) $(CFLAGS) -DDEBUG -o opal.out $(src) $(src_nodep) $(CFLAGS_END)
 
 bench: $(src) $(hdr)
 	lex -d parse.l

@@ -66,8 +66,6 @@ extern FILE	*yyin;
 std::vector<npc> npcs_parsed;
 std::vector<obj> objs_parsed;
 
-constexpr static int const line_max = 77;
-
 void
 parse_npc_file()
 {

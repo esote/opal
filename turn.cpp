@@ -58,10 +58,14 @@ static std::optional<std::pair<uint8_t, uint8_t>>	gen_obj();
 
 static void	npc_list(WINDOW *const, std::vector<npc *> const &);
 
+#ifdef DEBUG
 static void	defog(WINDOW *const);
+static bool	inspect(WINDOW *const, bool const);
+#else
+static bool	inspect(WINDOW *const);
+#endif
 
 static void	crosshair(WINDOW *const, uint8_t const, uint8_t const);
-static bool	inspect(WINDOW *const, bool const);
 
 static bool	viewable(int const, int const);
 static void	pc_viewbox(WINDOW *const, int const);
@@ -73,16 +77,20 @@ static void	equip_list(WINDOW *const, bool const);
 static void	carry_to_equip(int const);
 static void	equip_to_carry(int const, std::optional<std::string> &);
 
+static void	swap(std::optional<obj> &, std::optional<obj> &);
+
 static void	thing_details(WINDOW *const, dungeon_thing const &);
 
 enum pc_action {
+#ifdef DEBUG
 	PC_DEFOG,
+	PC_TELE,
+#endif
 	PC_NEXT,
 	PC_NONE,
 	PC_NPC_LIST,
 	PC_QUIT,
-	PC_RETRY,
-	PC_TELE
+	PC_RETRY
 };
 
 static enum pc_action	turn_npc(WINDOW *const, WINDOW *const, npc &);
@@ -170,8 +178,9 @@ static double constexpr CUTOFF = 4.0;
 static int constexpr PERSISTANCE = 5;
 static int constexpr KEY_ESC = 27;
 static int constexpr DEFAULT_LUMINANCE = 5;
-static unsigned int constexpr RETRIES = 150;
+static unsigned int constexpr RETRIES = 300;
 static int constexpr PC_CARRY_MAX = 10;
+static uint64_t constexpr HEAL_CAP = 500;
 
 static std::optional<obj> pc_carry[PC_CARRY_MAX];
 static equip pc_equip;
@@ -184,6 +193,7 @@ turn_engine(WINDOW *const win, unsigned int const numnpcs,
 	std::vector<npc *> npcs;
 	std::vector<obj *> objs;
 	unsigned int real_num = 0;
+	size_t bosses = 0;
 
 	WINDOW *sep;
 
@@ -212,7 +222,7 @@ turn_engine(WINDOW *const win, unsigned int const numnpcs,
 			i = rr.rrand<size_t>(0, npcs_parsed.size() - 1);
 			retries++;
 		} while (retries < RETRIES && (npcs_parsed[i].done
-			|| npcs_parsed[i].rrty <= rr.rrand<uint8_t>(0, 99)));
+			|| npcs_parsed[i].rrty >= rr.rrand<uint8_t>(0, 99)));
 
 		if (retries == RETRIES) {
 			break;
@@ -233,8 +243,13 @@ turn_engine(WINDOW *const win, unsigned int const numnpcs,
 			npcs_parsed[i].done = true;
 		}
 
+		if (n->type & BOSS) {
+			bosses++;
+		}
+
 		n->x = coords->first;
 		n->y = coords->second;
+		n->turn = 1;
 
 		tiles[n->y][n->x].n = n;
 
@@ -254,7 +269,7 @@ turn_engine(WINDOW *const win, unsigned int const numnpcs,
 			i = rr.rrand<size_t>(0, objs_parsed.size() - 1);
 			retries++;
 		} while (retries < RETRIES && (objs_parsed[i].done
-			|| objs_parsed[i].rrty <= rr.rrand<uint8_t>(0, 99)));
+			|| objs_parsed[i].rrty >= rr.rrand<uint8_t>(0, 99)));
 
 		if (retries == RETRIES) {
 			break;
@@ -297,10 +312,23 @@ turn_engine(WINDOW *const win, unsigned int const numnpcs,
 
 	(void)box(sep, 0, 0);
 
+	if (bosses == 1) {
+		wattron(win, COLOR_PAIR(COLOR_CYAN));
+	} else if (bosses > 1) {
+		wattron(win, COLOR_PAIR(COLOR_RED));
+	}
+	box(win, 0, 0);
+	if (bosses == 1) {
+		wattroff(win, COLOR_PAIR(COLOR_CYAN));
+	} else if (bosses > 1) {
+		wattroff(win, COLOR_PAIR(COLOR_RED));
+	}
+
 	pc_viewbox(win, DEFAULT_LUMINANCE);
 
 	(void)mvwprintw(win, HEIGHT - 1, 2,
-		"[ hp: %" PRIu64 " ]", player.hp);
+		"[ hp: %" PRIu64 "; speed: %" PRIu64 " ]", player.hp,
+			player.speed);
 
 	while (!heap.empty()) {
 		npc &n = heap.top();
@@ -331,9 +359,17 @@ turn_engine(WINDOW *const win, unsigned int const numnpcs,
 		}
 
 		switch(turn_npc(win, sep, n)) {
+#ifdef DEBUG
 		case PC_DEFOG:
 			defog(sep);
 			goto retry;
+		case PC_TELE:
+			if (inspect(win, true)) {
+				break;
+			} else {
+				goto retry;
+			}
+#endif
 		case PC_NEXT:
 			ret = TURN_NEXT;
 			goto exit;
@@ -347,12 +383,6 @@ turn_engine(WINDOW *const win, unsigned int const numnpcs,
 			goto exit;
 		case PC_RETRY:
 			goto retry;
-		case PC_TELE:
-			if (inspect(win, true)) {
-				break;
-			} else {
-				goto retry;
-			}
 		}
 
 		heap.push(n);
@@ -557,17 +587,24 @@ move_logic(WINDOW *const win, npc &n, uint8_t const y, uint8_t const x)
 
 		(void)box(win, 0, 0);
 		(void)mvwprintw(win, HEIGHT - 1, 2,
-			"[ hp: %" PRIu64 " ]", player.hp);
+			"[ hp: %" PRIu64 "; speed: %" PRIu64 " ]", player.hp,
+				player.speed);
 
 		if (n.type & PLAYER_TYPE) {
-			(void)mvwprintw(win, HEIGHT - 1, WIDTH / 4,
+			(void)mvwprintw(win, HEIGHT - 1, WIDTH / 2,
 				"[ delt %" PRIu64 " damage ]", dam);
 		} else {
-			(void)mvwprintw(win, HEIGHT - 1, WIDTH / 4,
+			(void)mvwprintw(win, HEIGHT - 1, WIDTH / 2,
 				"[ received %" PRIu64 " damage ]", dam);
 		}
 
 		if (tiles[y][x].n->hp == 0) {
+			if (n.hp > HEAL_CAP) {
+				n.hp += 5;
+			} else {
+				dam++;
+				n.hp += rr.rrand<uint64_t>(dam/2, dam);
+			}
 			tiles[y][x].n->dead = true;
 			tiles[y][x].n = NULL;
 			npc_obj_or_tile(win, y, x);
@@ -833,6 +870,10 @@ turn_pc(WINDOW *const win, WINDOW *const sep, npc &n)
 	uint8_t x = n.x;
 	bool exit = false;
 
+	(void)mvwprintw(win, HEIGHT - 1, 2,
+		"[ hp: %" PRIu64 "; speed: %" PRIu64 " ]", player.hp,
+			player.speed);
+
 	while (!exit) {
 		exit = true;
 		switch(wgetch(win)) {
@@ -923,10 +964,12 @@ turn_pc(WINDOW *const win, WINDOW *const sep, npc &n)
 		case 'Q':
 		case 'q':
 			return PC_QUIT;
+#ifdef DEBUG
 		case 'f':
 			return PC_DEFOG;
 		case 'g':
 			return PC_TELE;
+#endif
 		case 'i':
 			carry_list(sep, CARRY_LIST);
 			return PC_RETRY;
@@ -946,7 +989,11 @@ turn_pc(WINDOW *const win, WINDOW *const sep, npc &n)
 			carry_list(sep, CARRY_REMOVE);
 			return PC_RETRY;
 		case 'L':
+#ifdef DEBUG
 			inspect(win, false);
+#else
+			inspect(win);
+#endif
 			return PC_RETRY;
 		case 'I':
 			carry_list(sep, CARRY_INSPECT);
@@ -1031,6 +1078,7 @@ npc_list(WINDOW *const nwin, std::vector<npc *> const &npcs)
 	}
 }
 
+#ifdef DEBUG
 static void
 defog(WINDOW *const win)
 {
@@ -1052,6 +1100,7 @@ defog(WINDOW *const win)
 
 	(void)wgetch(win);
 }
+#endif
 
 static void
 crosshair(WINDOW *const win, uint8_t const y, uint8_t const x)
@@ -1085,7 +1134,11 @@ crosshair(WINDOW *const win, uint8_t const y, uint8_t const x)
 }
 
 static bool
+#ifdef DEBUG
 inspect(WINDOW *const win, bool const teleport)
+#else
+inspect(WINDOW *const win)
+#endif
 {
 	WINDOW *twin;
 	uint8_t y = player.y;
@@ -1103,15 +1156,19 @@ inspect(WINDOW *const win, bool const teleport)
 
 		crosshair(twin, y, x);
 
+#ifdef DEBUG
 		if (teleport) {
 			(void)mvwprintw(twin, HEIGHT - 1, 2,
 				"[ PC control keys; 'r' for random location; "
 				"'g' or 't' to teleport; ESC to exit ]");
 		} else {
+#endif
 			(void)mvwprintw(twin, HEIGHT - 1, 2,
 				"[ PC control keys; 'g' or 't' to inspect; "
 				"ESC to exit ]");
+#ifdef DEBUG
 		}
+#endif
 
 
 		if (wrefresh(twin) == ERR) {
@@ -1178,6 +1235,7 @@ inspect(WINDOW *const win, bool const teleport)
 			/* left */
 			x--;
 			break;
+#ifdef DEBUG
 		case 'r':
 			if (teleport) {
 				/* random teleport location */
@@ -1186,8 +1244,10 @@ inspect(WINDOW *const win, bool const teleport)
 			}
 
 			break;
+#endif
 		case 't':
 		case 'g':
+#ifdef DEBUG
 			if (teleport && tiles[y][x].n == NULL) {
 				/* complete teleport */
 				tiles[y][x].v = true;
@@ -1196,6 +1256,9 @@ inspect(WINDOW *const win, bool const teleport)
 			}
 
 			if (!teleport && tiles[y][x].n != NULL) {
+#else
+			if (tiles[y][x].n != NULL) {
+#endif
 				thing_details(twin, *tiles[y][x].n);
 			}
 
@@ -1522,7 +1585,7 @@ carry_to_equip(int const i)
 		errx(1, "carry_to_equip bad swap");
 	}
 
-	std::swap(pc_carry[i], *equip_slot);
+	swap(pc_carry[i], *equip_slot);
 }
 
 static void
@@ -1577,7 +1640,7 @@ equip_to_carry(int const i, std::optional<std::string> &error)
 
 	for (int j = 0; j < PC_CARRY_MAX; ++j) {
 		if (!pc_carry[j].has_value()) {
-			std::swap(pc_carry[j], *equip_slot);
+			swap(pc_carry[j], *equip_slot);
 			return;
 		}
 	}
@@ -1585,6 +1648,28 @@ equip_to_carry(int const i, std::optional<std::string> &error)
 	error = "no open slots in carry bag";
 }
 
+static void
+swap(std::optional<obj> &carry, std::optional<obj> &equip) {
+	if (!carry.has_value()) {
+		player.hp = subu64(player.hp, equip->def);
+		player.speed = subu64(player.speed, equip->speed);
+
+		if (player.hp == 0) {
+			player.hp = 1;
+		}
+
+		if (player.speed == 0) {
+			player.speed = 1;
+		}
+	} else {
+		player.hp = subu64(player.hp, equip->def);
+		player.hp += carry->def;
+
+		player.speed = subu64(player.speed, equip->speed);
+		player.speed += carry->speed;
+	}
+	std::swap(carry, equip);
+}
 static void
 thing_details(WINDOW *const win, dungeon_thing const &d)
 {

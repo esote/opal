@@ -29,16 +29,16 @@ COLOR BLUE
 DAM 0+0d1
 DEF 1+0d1
 DESC
-An enchanted amulet signifying one of the Nine Devines, Kynareth. Occasionally
-found near shrines. Increases stamina.
+An enchanted amulet signifying one of the Nine Devines, Kynareth.
+Occasionally found near shrines. Increases stamina.
 .
-DODGE 10+3d1
+DODGE 10+3d2
 HIT 0+0d1
 NAME Amulet of Kynareth
 RRTY 20
-SPEED 10+3d1
+SPEED 10+3d2
 TYPE AMULET
-VAL 20+2d1
+VAL 20+2d2
 WEIGHT 1+2d3
 END
 
@@ -47,7 +47,7 @@ ART FALSE
 ATTR 0+0d1
 COLOR WHITE
 DAM 2+3d5
-DEF 1+2d1
+DEF 1+2d2
 DESC
 The tooth is a little dull. Found during Blood Moons.
 .
@@ -55,10 +55,10 @@ DODGE 2+1d2
 HIT 0+0d1
 NAME Shark Tooth Necklace
 RRTY 25
-SPEED 1+2d1
+SPEED 1+2d2
 TYPE AMULET
 VAL 1+3d6
-WEIGHT 1+2d1
+WEIGHT 1+2d2
 END
 
 BEGIN OBJ
@@ -79,10 +79,10 @@ DODGE 6+1d7
 HIT 0+0d1
 NAME Shield of Evalach
 RRTY 95
-SPEED 1+2d1
+SPEED 1+2d2
 TYPE ARMOR
 VAL 999+0d1
-WEIGHT 1+3d1
+WEIGHT 1+3d2
 END
 
 BEGIN OBJ
@@ -90,7 +90,7 @@ ART FALSE
 ATTR 0+0d1
 COLOR WHITE
 DAM 0+0d1
-DEF 16+3d1
+DEF 16+3d2
 DESC
 Armor consisting of small metal rings linked together to form a mesh. While
 useful at blocking slashing blows from edged weapons, it is less useful
@@ -102,7 +102,7 @@ NAME Chain mail
 RRTY 30
 SPEED 1+1d3
 TYPE ARMOR
-VAL 15+3d1
+VAL 15+3d2
 WEIGHT 15+3d5
 END
 
@@ -113,8 +113,8 @@ COLOR YELLOW
 DAM 0+0d1
 DEF 15+3d5
 DESC
-Forged of the finest gold and enchanted with a weak spell of protection. Lined
-on the inside with shimmering samite.
+Forged of the finest gold and enchanted with a weak spell of protection.
+Lined on the inside with shimmering samite.
 .
 DODGE 5+0d1
 HIT 0+0d1
@@ -122,8 +122,8 @@ NAME Golden Armor
 RRTY 45
 SPEED 5+6d2
 TYPE ARMOR
-VAL 99+3d1
-WEIGHT 6+3d1
+VAL 99+3d2
+WEIGHT 6+3d2
 END
 
 BEGIN OBJ
@@ -133,11 +133,11 @@ COLOR YELLOW
 DAM 3+3d2
 DEF 15+0d1
 DESC
-The winged sandals of the messenger god Hermes. Made by the god Hepheastus of
+The winged sandals of the messenger god Hermes. Made by the god Hephaestus of
 imperishable gold and make their wearer as swift as a bird. The shoe strap
 was a bit cheap though.
 .
-DODGE 96+3d1
+DODGE 96+3d2
 HIT 0+0d1
 NAME Talaria
 RRTY 95
@@ -172,7 +172,7 @@ BEGIN OBJ
 ART FALSE
 ATTR 0+0d1
 COLOR RED
-DAM 2+3d1
+DAM 2+3d2
 DEF 5+5d2
 DESC
 Very useful when hiking or climbing mountains, yet you always seem to trip
@@ -213,7 +213,7 @@ ART FALSE
 ATTR 0+0d1
 COLOR BLUE
 DAM 0+0d1
-DEF 5+0d3
+DEF 5+0d1
 DESC
 A cloak that's useful on cold or windy occasions. Some say it's fashionable,
 but only when you use it to bow or hold it up a little bit and gallivant
@@ -234,12 +234,13 @@ ART FALSE
 ATTR 0+0d1
 COLOR GREEN
 DAM 0+0d1
-DEF 5+3d1
+DEF 5+3d2
 DESC
 Woven by Galadriel and her maidens. Each cloak fits to its wearer and is
-fashioned with a green broach. The color shifts to match natural surroundings.
+fashioned with a green broach. The color shifts to match natural
+surroundings.
 .
-DODGE 35+3d1
+DODGE 35+3d2
 HIT 0+0d1
 NAME Elven Cloak
 RRTY 45
@@ -253,7 +254,7 @@ BEGIN OBJ
 ART TRUE
 ATTR 0+0d1
 COLOR CYAN
-DAM 1+3d1
+DAM 1+3d2
 DEF 3+3d5
 DESC
 Iron gloves of the god Thor. Used to wield the hammer Mjolnir.
@@ -265,7 +266,7 @@ RRTY 95
 SPEED 0+0d1
 TYPE GLOVES
 VAL 999+0d1
-WEIGHT 41+3d1
+WEIGHT 41+3d2
 END
 
 BEGIN OBJ
@@ -273,17 +274,17 @@ ART FALSE
 ATTR 0+0d1
 COLOR BLUE
 DAM 0+0d1
-DEF 5+3d1
+DEF 5+3d2
 DESC
 An early virtual reality glove. While imprecise, it sure does look cool.
 .
-DODGE 5+6d1
+DODGE 5+6d2
 HIT 0+0d1
 NAME Power Glove
 RRTY 45
 SPEED 0+0d1
 TYPE GLOVES
-VAL 94+3d1
+VAL 94+3d2
 WEIGHT 0+0d1
 END
 
@@ -316,11 +317,11 @@ DEF 60+7d8
 DESC
 The helmet of King Arthur, passed down to him from Uther Pendragon.
 .
-DODGE 6+3d1
+DODGE 6+3d2
 HIT 0+0d1
 NAME Goswhit
 RRTY 95
-SPEED 6+3d1
+SPEED 6+3d2
 TYPE HELMET
 VAL 999+0d1
 WEIGHT 9+3d4
@@ -331,7 +332,7 @@ ART FALSE
 ATTR 0+0d1
 COLOR GREEN
 DAM 0+0d1
-DEF 6+7d1
+DEF 6+7d2
 DESC
 The helmet worn by Master Chief. Contains various heads-up display
 information, such as health and the count of sticky grenades.
@@ -340,7 +341,7 @@ DODGE 6+0d1
 HIT 0+0d1
 NAME Master Chief Helmet
 RRTY 56
-SPEED 9+3d1
+SPEED 9+3d2
 TYPE HELMET
 VAL 56+3d7
 WEIGHT 6+7d3
@@ -415,7 +416,7 @@ DEF 0+0d1
 DESC
 Large wooden stick with very flammable cloth at one end.
 .
-DODGE 1+0d3
+DODGE 1+0d1
 HIT 0+0d1
 NAME Torch
 RRTY 25
@@ -438,10 +439,10 @@ DODGE 0+0d1
 HIT 5+31d3
 NAME Ascalon
 RRTY 95
-SPEED 5+6d1
+SPEED 5+6d2
 TYPE OFFHAND
 VAL 999+0d1
-WEIGHT 5+3d1
+WEIGHT 5+3d2
 END
 
 BEGIN OBJ
@@ -453,7 +454,7 @@ DEF 0+0d1
 DESC
 Small, sharp knife. Can be easily concealed.
 .
-DODGE 5+6d1
+DODGE 5+6d2
 HIT 0+0d1
 NAME Dagger
 RRTY 30
@@ -467,7 +468,7 @@ BEGIN OBJ
 ART FALSE
 ATTR 0+0d1
 COLOR RED
-DAM 5+6d1
+DAM 5+6d2
 DEF 0+0d1
 DESC
 Long wooden pole with a sharp iron spike fastened to the end of the shaft.
@@ -487,7 +488,7 @@ ART TRUE
 ATTR 0+0d1
 COLOR RED
 DAM 35+6d7
-DEF 4+6d1
+DEF 4+6d2
 DESC
 Apollo's bow was crafted from sun rays.
 .
@@ -508,8 +509,8 @@ COLOR MAGENTA
 DAM 3+5d3
 DEF 0+0d1
 DESC
-As tall as the height of the player, this bow allows you to draw back an arrow
-far enough to reach an innocent bystander.
+As tall as the height of the player, this bow allows you to draw back an
+arrow far enough to reach an innocent bystander.
 .
 DODGE 3+0d1
 HIT 5+6d3
@@ -517,7 +518,7 @@ NAME Longbow
 RRTY 41
 SPEED 0+0d1
 TYPE RANGED
-VAL 6+3d1
+VAL 6+3d2
 WEIGHT 4+0d1
 END
 
@@ -530,8 +531,8 @@ DEF 3+0d1
 DESC
 An elastic ranged weapon allowing you to shoot arrows at a significant rate.
 .
-DODGE 6+3d1
-HIT 6+6d1
+DODGE 6+3d2
+HIT 6+6d2
 NAME Crossbow
 RRTY 50
 SPEED 5+6d3
@@ -586,7 +587,7 @@ BEGIN OBJ
 ART FALSE
 ATTR 0+0d1
 COLOR BLACK
-DAM 5+3d1
+DAM 5+3d2
 DEF 0+0d1
 DESC
 While it looks authentic, we things it's just made of old chocolate.
@@ -633,7 +634,7 @@ DODGE 3+9d2
 HIT 0+0d1
 NAME Ring of Defense
 RRTY 40
-SPEED 0+3d1
+SPEED 0+3d2
 TYPE RING
 VAL 15+3d5
 WEIGHT 3+0d1
@@ -666,20 +667,20 @@ BEGIN OBJ
 ART FALSE
 ATTR 0+0d1
 COLOR RED
-DAM 3+5d1
+DAM 3+5d2
 DEF 0+1d3
 DESC
 A solid wooden club with three nails poking out of it. The nails are for
 decoration, it's the splinters that get you.
 .
-DODGE 3+5d1
-HIT 5+3d1
+DODGE 3+5d2
+HIT 5+3d2
 NAME Club
 RRTY 20
 SPEED 2+1d3
 TYPE WEAPON
 VAL 0+0d1
-WEIGHT 5+3d1
+WEIGHT 5+3d2
 END
 
 BEGIN OBJ
@@ -687,7 +688,7 @@ ART FALSE
 ATTR 0+0d1
 COLOR BLACK
 DAM 6+3d5
-DEF 2+3d1
+DEF 2+3d2
 DESC
 The sword wielded by the samurai. Distinguished by its curved, single-edge
 blade.
@@ -709,7 +710,8 @@ COLOR GREEN
 DAM 3+4d5
 DEF 3+0d1
 DESC
-The trustworthy battle axe. Always gets the job done, if just a little slower.
+The trustworthy battle axe. Always gets the job done, if just a little
+slower.
 .
 DODGE 0+0d1
 HIT 5+6d7
@@ -718,5 +720,5 @@ RRTY 40
 SPEED 0+0d1
 TYPE WEAPON
 VAL 9+7d8
-WEIGHT 50+3d1
+WEIGHT 50+3d2
 END

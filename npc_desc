@@ -1,0 +1,304 @@
+OPAL NPC DESCRIPTION 1
+
+BEGIN NPC
+ABIL BOSS SMART TELE TUNNEL UNIQ
+COLOR GREEN
+DAM 102+35d6
+DESC
+Ph'nglui mglw'nafh Cthulhu R'lyeh wgah'nagl fhtagn
+.
+HP 3000+5d30
+NAME Cthulhu
+RRTY 98
+SPEED 20+5d7
+SYMB C
+END
+
+BEGIN NPC
+ABIL BOSS SMART TELE TUNNEL UNIQ
+COLOR BLACK
+DAM 302+5d30
+DESC
+King of Dragons and harbinger of the apocalypse.
+.
+HP 6000+5d100
+NAME Alduin
+RRTY 99
+SPEED 60+5d15
+SYMB A
+END
+
+BEGIN NPC
+ABIL SMART TELE
+COLOR YELLOW
+DAM 10+0d1
+DESC
+If it looks, moves, and attacks like a player, it must be a player.
+.
+HP 50+2d5
+NAME Doppelganger
+RRTY 90
+SPEED 10+0d1
+SYMB @
+END
+
+BEGIN NPC
+ABIL TUNNEL
+COLOR GREEN
+DAM 3+3d2
+DESC
+Brutish and aggressive, yet still humanoid in appearance. Some wear the
+white badge of Isengard.
+.
+HP 6+7d3
+NAME Orc
+RRTY 20
+SPEED 3+5d2
+SYMB o
+END
+
+BEGIN NPC
+ABIL SMART TUNNEL
+COLOR GREEN
+DAM 7+3d3
+DESC
+Ancient shepherds of the forest, Ents roam the world in search of the
+Entwives. They suspect, with good reason, that you may be involved in the
+disappearance of the Entwives.
+.
+HP 16+7d4
+NAME Enraged Ent
+RRTY 60
+SPEED 1+3d3
+SYMB E
+END
+
+BEGIN NPC
+ABIL SMART TELE TUNNEL
+COLOR MAGENTA
+DAM 16+5d7
+DESC
+Wisened long ago to the power of magic and corrupted by the desire of
+supremacy over the mortal domain.
+.
+HP 5+3d5
+NAME Wizard
+RRTY 75
+SPEED 2+3d4
+SYMB W
+END
+
+BEGIN NPC
+ABIL ERRATIC TELE
+COLOR BLACK
+DAM 3+1d10
+DESC
+Bats have incredibly good hearing, and are able to locate your position
+through the sounds of your footsteps alone. When enraged they can use their
+sharp teeth to wound you and potentially cause serious blood loss.
+.
+HP 3+1d3
+NAME Bat
+RRTY 10
+SPEED 10+3d2
+SYMB b
+END
+
+BEGIN NPC
+ABIL SMART TELE
+COLOR WHITE
+DAM 15+3d6
+DESC
+Discarded by God and thrown from the kingdom of heaven, these pale, grotesque
+creatures barely resemble their holy brothers.
+.
+HP 15+6d3
+NAME Fallen Angel
+RRTY 70
+SPEED 9+3d2
+SYMB a
+END
+
+BEGIN NPC
+ABIL SMART
+COLOR BLUE
+DAM 3+4d2
+DESC
+When directly observed it appears as a pile of mismatched armor, often strewn
+across the floor. However, upon nearing the armor, or when your back is
+turned, it will slowly reassemble itself into the form of a warrior. While it
+is weaponless, the floating armor may completely surround and suffocate you.
+.
+HP 4+4d2
+NAME Animated Armor
+RRTY 45
+SPEED 3+1d4
+SYMB f
+END
+
+BEGIN NPC
+ABIL SMART UNIQ
+COLOR CYAN
+DAM 100+3d50
+DESC
+The glass golem is said to have been forged in the hearth of the Gods. It is
+incredibly fast, and can defeat most enemies with a single swing.
+.
+HP 10+0d1
+NAME Glass Golem
+RRTY 90
+SPEED 15+3d5
+SYMB G
+END
+
+BEGIN NPC
+ABIL ERRATIC
+COLOR YELLOW
+DAM 4+3d2
+DESC
+In the age of science, constructing mechanical automata was a popular
+activity for the aristocratic. Sadly, they were never built to last. With a
+limited lifespan they betrayed their creators in one last attempt to seize
+independence.
+.
+HP 5+1d5
+NAME Wandering Automata
+RRTY 20
+SPEED 3+1d4
+SYMB a
+END
+
+BEGIN NPC
+ABIL SMART
+COLOR YELLOW
+DAM 1+0d1
+DESC
+Floating specks of light usually indicating a higher level of nuclear
+radiation in the area.
+.
+HP 30+3d5
+NAME Wisp
+RRTY 30
+SPEED 15+3d9
+SYMB i
+END
+
+BEGIN NPC
+ABIL TUNNEL
+COLOR GREEN
+DAM 13+5d3
+DESC
+It leaves a trail of viscous flaming mucus wherever it glides.
+.
+HP 20+3d5
+NAME Fire Snail
+RRTY 20
+SPEED 2+0d1
+SYMB n
+END
+
+BEGIN NPC
+ABIL ERRATIC SMART
+COLOR BLUE
+DAM 4+2d3
+DESC
+The knowledge described on its pages will forever be kept secret.
+.
+HP 4+3d2
+NAME Flying Book
+RRTY 30
+SPEED 10+2d3
+SYMB b
+END
+
+BEGIN NPC
+ABIL ERRATIC TUNNEL UNIQ
+COLOR RED
+DAM 15+3d5
+DESC
+Wandering giants with a taste for wriggling flesh. Usually found deep in
+caves or roaming in large grasslands.
+.
+HP 20+2d3
+NAME Cyclops
+RRTY 40
+SPEED 3+3d2
+SYMB c
+END
+
+BEGIN NPC
+ABIL SMART TELE
+COLOR CYAN
+DAM 90+3d5
+DESC
+Masters of magic and manipulation of the ethereal plane.
+.
+HP 15+3d2
+NAME Arch Mage
+RRTY 80
+SPEED 4+5d3
+SYMB m
+END
+
+BEGIN NPC
+ABIL ERRATIC TUNNEL
+COLOR YELLOW
+DAM 9+2d5
+DESC
+It observed the formation of this world, and by absorbing the power of others
+it continues to grow stronger.
+.
+HP 30+20d3
+NAME Elder Gelatin
+RRTY 75
+SPEED 5+0d1
+SYMB j
+END
+
+BEGIN NPC
+ABIL SMART
+COLOR BLACK
+DAM 1+10d2
+DESC
+Members of the secretive Order of the Left Shoe. They seek to vanquish all
+those from this world who break eggs from the smaller end.
+.
+HP 2+3d3
+NAME Assassin
+RRTY 60
+SPEED 20+30d5
+SYMB z
+END
+
+BEGIN NPC
+ABIL SMART
+COLOR RED
+DAM 20+20d5
+DESC
+Sworn to project the royalty at all costs, including the end of their own
+lives.
+.
+HP 10+3d2
+NAME Death Knight
+RRTY 60
+SPEED 2+0d1
+SYMB d
+END
+
+BEGIN NPC
+ABIL ERRATIC SMART
+COLOR WHITE
+DAM 9999+0d1
+DESC
+A creature so foul, so cruel that no man has yet fought with it and lived!
+Bones of full fifty men lie strewn about its lair. So, brave adventurer, if
+you doubt your courage or your strength, come no further, for death awaits
+you with all nasty, big, pointy teeth.
+.
+HP 10+0d1
+NAME Rabbit of Caerbannog
+RRTY 99
+SPEED 20+3d5
+SYMB B
+END
+

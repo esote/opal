@@ -109,7 +109,7 @@ main(int const argc, char *const argv[])
 	}
 
 	if (numnpcs == std::numeric_limits<unsigned int>::max()) {
-		numnpcs = rr.rrand<unsigned int>(3, 5);
+		numnpcs = rr.rrand<unsigned int>(3, 10);
 	}
 
 	if (numobjs == std::numeric_limits<unsigned int>::max()) {
@@ -166,7 +166,7 @@ main(int const argc, char *const argv[])
 
 	player.color = COLOR_PAIR(COLOR_YELLOW);
 	player.dam = {0, 1, 4};
-	player.hp = rr.rand_dice<uint64_t>(50, 2, 50);
+	player.hp = rr.rand_dice<uint64_t>(50, 30, 5);
 	player.speed = 10;
 	player.symb = PLAYER;
 	player.turn = 0;
@@ -184,8 +184,6 @@ main(int const argc, char *const argv[])
 			errx(1, "arrange_renew erase");
 		}
 
-		(void)box(win, 0, 0);
-
 		arrange_renew();
 
 		for (auto &n : npcs_parsed) {
@@ -193,6 +191,8 @@ main(int const argc, char *const argv[])
 				n.done = false;
 			}
 		}
+
+		player.turn = 0;
 
 		goto retry;
 	case TURN_NONE:
