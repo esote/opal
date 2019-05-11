@@ -1,0 +1,214 @@
+.\"
+.\" Copyright (C) 2019  Esote
+.\"
+.\" This program is free software: you can redistribute it and/or modify
+.\" it under the terms of the GNU Affero General Public License as published
+.\" by the Free Software Foundation, either version 3 of the License, or
+.\" (at your option) any later version.
+.\"
+.\" This program is distributed in the hope that it will be useful,
+.\" but WITHOUT ANY WARRANTY; without even the implied warranty of
+.\" MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+.\" GNU Affero General Public License for more details.
+.\"
+.\" You should have received a copy of the GNU Affero General Public License
+.\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
+.\"
+.Dd $Mdocdate: May 10 2019$
+.Dt OPAL 6
+.Os
+.Sh NAME
+.Nm opal
+.Nd a rogue-like dungeon crawler
+.Sh SYNOPSIS
+.Nm opal
+.Op Fl ls
+.Op Fl n Ar count
+.Op Fl o Ar count
+.Op Fl z Ar seed
+.Sh DESCRIPTION
+.Nm opal
+is a rogue-like dungeon crawler. You are the playable character denoted by the
+symbol @. The goal is to kill the boss NPC. As a player you can pick up objects
+from the floor and wear them to increase your attributes.
+.Pp
+Damage is calculated as the sum of dice rolls for the player's base damage and
+all equipped items.
+.Pp
+Options available:
+.Pp
+.Bl -tag -width indent -compact
+.It Fl l
+load dungeon
+.It Fl s
+save dungeon
+.It Fl n
+custom count of NPCs per floor
+.It Fl o
+custom count of objects per floor
+.It Fl z
+a string or integer to initialize the RNG subsystem
+.El
+.Pp
+.Nm opal
+expects NPC and object description files. Examples should have been included
+with your copy.
+.Sh COMMANDS
+.Bl -tag -width indent
+.It Ic 7 No or Ic y No or Ic home
+move up and to the left
+.It Ic 8 No or Ic k No or Ic arrow up
+move up
+.It Ic 9 No or Ic u No or Ic page up
+move up and to the right
+.It Ic 6 No or Ic l No or Ic arrow right
+move right
+.It Ic 3 No or Ic n No or Ic page down
+move down and to the right
+.It Ic 2 No or Ic j No or Ic arrow down
+move down
+.It Ic 1 No or Ic b No or Ic end
+move down and to the left
+.It Ic 4 No or Ic h No or Ic arrow left
+move left
+.It Ic 5 No or Ic . No or Ic space
+rest
+.Pq consumes a turn
+.El
+.Pp
+.Bl -tag -width indent -compact
+.It Ic >
+go down stairs
+.It Ic <
+go up stairs
+.It Ic m
+view scrollable NPC list
+.It Ic Q No or Ic q
+quit
+.It Ic i
+carry (inventory) list
+.It Ic e
+equipment list
+.It Ic w
+prompt to wear an object
+.It Ic t
+prompt to take off an object
+.It Ic d
+prompt to drop an object from carry list
+.It Ic x
+prompt to destroy an object from carry list
+.It Ic L
+inspect an NPC
+.It Ic I
+inspect an object from carry list
+.Pp
+.It Ic f
+defog
+.Pq DEBUG only
+.It Ic g
+teleport
+.Pq DEBUG only
+.El
+.Sh DESCRIPTIONS GRAMMAR
+The NPC and object description files are used to generate NPCs and objects
+during the game. They follow a custom grammar.
+.Pp
+Dice are formatted with integers as such (without spaces):
+.Ic base
++
+.Ic dice
+d
+.Ic sides
+.Pp
+.Ss NPCs
+The file must start with "OPAL NPC DESCRIPTION 1". An NPC description starts
+with "BEGIN NPC" and ends with "END". It has the following attributes:
+.Pp
+.Bl -tag -width indent -compact
+.It Ic ABIL
+an NPC's characteristics, one or more of BOSS, DESTROY, ERRATIC, PASS, PICKUP,
+SMART, TELE, TUNNEL, or UNIQ.
+.It Ic COLOR
+one of BLACK, BLUE, CYAN, GREEN, MAGENTA, RED, WHITE, or YELLOW.
+.It Ic DAM
+dice format
+.It Ic DESC
+multi-line NPC description, ending with '.' on its own line.
+.It Ic HP
+dice format
+.It Ic NAME
+string name
+.It Ic RRTY
+rarity, from 1 to 100 with 100 being the rarest
+.It Ic SPEED
+dice format
+.It Ic SYMB
+any single character
+.El
+.Ss Objects
+The file must start with "OPAL OBJ DESCRIPTION 1". An object description starts
+with "BEGIN OBJ" and ends with "END". It has the following attributes:
+.Pp
+.Bl -tag -width indent -compact
+.It Ic ART
+boolean, whether the object is a unique artifact
+.It Ic ATTR
+dice format
+.It Ic COLOR
+one of BLACK, BLUE, CYAN, GREEN, MAGENTA, RED, WHITE, or YELLOW.
+.It Ic DAM
+dice format
+.It Ic DEF
+dice format
+.It Ic DESC
+multi-line object description, ending in '.' on its own line.
+.It Ic DODGE
+dice format
+.It Ic HIT
+dice format
+.It Ic NAME
+string name
+.It Ic RRTY
+rarity, from 1 to 100 with 100 being the rarest
+.It Ic SPEED
+dice format
+.It Ic TYPE
+object type, one of AMMUNITION, AMULET, ARMOR, BOOK, BOOTS, CLOAK, CONTAINER,
+FLASK, FOOD, GLOVES GOLD, HELMET, LIGHT, OFFHAND, RANGED, RING, SCROLL, WAND, or
+WEAPON.
+.It Ic VAL
+dice format
+.It Ic WEIGHT
+dice format
+.El
+.Sh NOTES
+.Nm opal
+requires ncurses. To compile it also requires
+.Xr yacc 1
+and
+.Xr lex 1
+which are used for descriptions parsing.
+.Sh FILES
+.Bl -tag -width indent
+.It Pa $HOME/.opal/dungeon
+Binary save file
+.It Pa $HOME/.opal/npc_desc
+Required NPC descriptions file
+.It Pa $HOME/.oapl/obj_desc
+Required object descriptions file
+.El
+.Sh HISTORY
+My
+.Cm coms327
+repository contains the previous development history of
+.Nm opal
+.Sh AUTHORS
+.Nm opal
+was written by Esote.
+.Sh COPYRIGHT
+Copyright \c 2019 Esote. There is NO warranty. You may redistribute this
+software under the terms of the GNU Affero General Public License. For more
+information see the LICENSE file.
+.Sh BUGS
+The game window should not be resized during play. This may corrupt the display.
+Fatal errors do not bother to reset the terminal.

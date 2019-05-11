@@ -1,14 +1,127 @@
-OPAL's Playable Almost Indefectibly. OPAL is a rogue-like dungeon crawler.
+NAME
+	opal - a rogue-like dungeon crawler
 
-OPAL expects NPC and object description files at $HOME/.opal/npc_desc and
-$HOME/.opal/obj_desc respectively. Example files have been provided.
+SYNOPSIS
+	opal [-ls] [-n count] [-o count] [-z seed]
 
-Damage is calculated as the sum of dice rolls for the player's base damage and
-all equipped items.
+DESCRIPTION
+	opal is a rogue-like dungeon crawler. You are the playable character,
+	denoted by the symbol @. The goal is to kill the boss NPC. As a player
+	you can pick up objects from the floor and wear them to increase your
+	attributes.
 
-The NPC and object parsing is implemented in Yacc and (F)Lex, so compilation
-requires them.
+	Damage is calculated as the sum of dice rolls for the player's base
+	damage and all equipped items.
 
-Requires support for C++17 and POSIX threads.
+	Options available:
+	-l	load dungeon
+	-s	save dungeon
+	-n	custom count of NPCs per floor
+	-o	custom count of objects per floor
+	-z	a string or integer to initialize the RNG subsystem
 
-See my coms327 repository for the previous development history of OPAL.
+	opal expects NPC and object description files. Examples should have been
+	included with your copy.
+
+	OPAL is a recursive acronym for "OPAL's Playable Almost Indefectibly."
+
+COMMANDS
+	7, y, home		move up and to the left
+	8, k, arrow up		move up
+	9, u, page up		move up and to the right
+	6, l, arrow right	move right
+	3, n, page down		move down and to the right
+	2, j, arrow down	move down
+	1, b, end		move down and to the left
+	4, h, arrow left	move left
+	5, ., space		rest (consumes a turn)
+
+	>			go down stairs
+	<			go up stairs
+	m			view scrollable NPC list
+	Q or q			quit
+	i			carry (inventory) list
+	e			equipment list
+	w			prompt to wear an object
+	t			prompt to take off an object
+	d			prompt to drop an object from carry list
+	x			prompt to destroy an object from carry list
+	L			inspect an NPC
+	I			inspect an object from carry list
+
+	f			defog (DEBUG only)
+	g			teleport (DEBUG only)
+
+DESCRIPTIONS GRAMMAR
+	The NPC and object descriptions file are used to generate NPCs and
+	objects during the game. They follow a custom grammar.
+
+	Dice are formatted with integers as such (without spaces): base + dice d
+	sides
+
+	NPCs
+
+	The file must start with "OPAL NPC DESCRIPTION 1". An NPC description
+	starts with "BEGIN NPC" and ends with "END". It has the following
+	attributes:
+
+	ABIL	an NPC's characteristics, one or more of BOSS, DESTROY, ERRATIC,
+		PASS, PICKUP, SMART, TELE, TUNNEL, or UNIQ.
+	COLOR	one of BLACK, BLUE, CYAN, GREEN, MAGENTA, RED, WHITE, or YELLOW.
+	DAM	dice format
+	DESC	multi-line NPC description, ending in '.' on its own line.
+	HP	dice format
+	NAME	string name
+	RRTY	rarity, from 1 to 100 with 100 being the rarest
+	SPEED	dice format
+	SYMB	any single character
+
+	Objects
+
+	The file must start with "OPAL OBJ DESCRIPTION 1". An object description
+	starts with "BEGIN OBJ" and ends with "END". It has the following
+	attributes:
+
+	ART	boolean, whether the object is a unique artifact
+	ATTR	dice format
+	COLOR	one of BLACK, BLUE, CYAN, GREEN, MAGENTA, RED, WHITE, or YELLOW.
+	DAM	dice format
+	DEF	dice format
+	DESC	multi-line object description, ending in '.' on its own line.
+	DODGE	dice format
+	HIT	dice format
+	NAME	string name
+	RRTY	rarity, from 1 to 100 with 100 being the rarest
+	SPEED	dice format
+	TYPE	object type, one of AMMUNITION, AMULET, ARMOR, BOOK, BOOTS,
+		CLOAK, CONTAINER, FLASK, FOOD, GLOVES GOLD, HELMET, LIGHT,
+		OFFHAND, RANGED, RING, SCROLL, WAND, or WEAPON.
+	VAL	dice format
+	WEIGHT	dice format
+
+NOTES
+	opal requires ncurses. To compile it also requires yacc(1) and lex(1)
+	which are used for descriptions parsing.
+
+FILES
+	$HOME/.opal/dungeon
+		Binary save file
+	$HOME/.opal/npc_desc
+		Required NPC descriptions file
+	$HOME/.opal/obj_desc
+		Required object descriptions file
+
+HISTORY
+	My coms327 repository contains the previous development history of opal.
+
+AUTHORS
+	opal was written by Esote.
+
+COPYRIGHT
+	Copyright (c) 2019 Esote. There is NO warranty. You may redistribute
+	this software under the terms of the GNU Affero General Public License.
+	For more information, see the LICENSE file.
+
+BUGS
+	The game window should not be resized during play. This may corrupt the
+	display. Fatal errors do not bother to reset the terminal.
