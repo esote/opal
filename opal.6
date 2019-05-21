@@ -28,9 +28,11 @@
 .Op Fl z Ar seed
 .Sh DESCRIPTION
 .Nm opal
-is a rogue-like dungeon crawler. You are the playable character denoted by the
-symbol @. The goal is to kill the boss NPC. As a player you can pick up objects
-from the floor and wear them to increase your attributes.
+is a rogue-like dungeon crawler.
+You are the playable character denoted by the symbol @.
+The goal is to kill the boss NPC.
+As a player you can pick up objects from the floor and wear them to increase
+your attributes.
 .Pp
 Damage is calculated as the sum of dice rolls for the player's base damage and
 all equipped items.
@@ -51,78 +53,74 @@ a string or integer to initialize the RNG subsystem
 .El
 .Pp
 .Nm opal
-expects NPC and object description files. Examples should have been included
-with your copy.
+expects NPC and object description files.
+Examples should have been included with your copy.
 .Sh COMMANDS
 .Bl -tag -width indent
-.It Ic 7 No or Ic y No or Ic home
+.It \fB7\fR, \fBy\fR, \fBhome\fR
 move up and to the left
-.It Ic 8 No or Ic k No or Ic arrow up
+.It \fB8\fR, \fBk\fR, \fBarrow up\fR
 move up
-.It Ic 9 No or Ic u No or Ic page up
+.It \fB9\fR, \fBu\fR, \fBpage up\fR
 move up and to the right
-.It Ic 6 No or Ic l No or Ic arrow right
+.It \fB6\fR, \fBl\fR, \fBarrow right\fR
 move right
-.It Ic 3 No or Ic n No or Ic page down
+.It \fB3\fR, \fBn\fR, \fBpage down\fR
 move down and to the right
-.It Ic 2 No or Ic j No or Ic arrow down
+.It \fB2\fR, \fBj\fR, \fBarrow down\fR
 move down
-.It Ic 1 No or Ic b No or Ic end
+.It \fB1\fR, \fBb\fR, \fBend\fR
 move down and to the left
-.It Ic 4 No or Ic h No or Ic arrow left
+.It \fB4\fR, \fBh\fR, \fBarrow left\fR
 move left
-.It Ic 5 No or Ic . No or Ic space
+.It \fB5\fR, \fB.\fR, \fBspace\fR
 rest
 .Pq consumes a turn
 .El
 .Pp
 .Bl -tag -width indent -compact
-.It Ic >
+.It \fB>\fR
 go down stairs
-.It Ic <
+.It \fB<\fR
 go up stairs
-.It Ic m
+.It \fBm\fR
 view scrollable NPC list
-.It Ic Q No or Ic q
+.It \fBQ\fR, \fBq\fR
 quit
-.It Ic i
+.It \fBi\fR
 carry (inventory) list
-.It Ic e
+.It \fBe\fR
 equipment list
-.It Ic w
+.It \fBw\fR
 prompt to wear an object
-.It Ic t
+.It \fBt\fR
 prompt to take off an object
-.It Ic d
+.It \fBd\fR
 prompt to drop an object from carry list
-.It Ic x
+.It \fBx\fR
 prompt to destroy an object from carry list
-.It Ic L
+.It \fBL\fR
 inspect an NPC
-.It Ic I
+.It \fBI\fR
 inspect an object from carry list
 .Pp
-.It Ic f
+.It \fBf\fR
 defog
 .Pq DEBUG only
-.It Ic g
+.It \fBg\fR
 teleport
 .Pq DEBUG only
 .El
 .Sh DESCRIPTIONS GRAMMAR
 The NPC and object description files are used to generate NPCs and objects
-during the game. They follow a custom grammar.
+during the game.
+They follow a custom grammar.
 .Pp
-Dice are formatted with integers as such (without spaces):
-.Ic base
-+
-.Ic dice
-d
-.Ic sides
-.Pp
+Dice are formatted with integers as \fIbase\fR+\fIdice\fRd\fIsides\fR.
 .Ss NPCs
-The file must start with "OPAL NPC DESCRIPTION 1". An NPC description starts
-with "BEGIN NPC" and ends with "END". It has the following attributes:
+The file must start with "OPAL NPC DESCRIPTION 1".
+An NPC description starts with "BEGIN NPC" and ends with "END".
+It has the following attributes:
 .Pp
 .Bl -tag -width indent -compact
 .It Ic ABIL
@@ -146,8 +144,9 @@ dice format
 any single character
 .El
 .Ss Objects
-The file must start with "OPAL OBJ DESCRIPTION 1". An object description starts
-with "BEGIN OBJ" and ends with "END". It has the following attributes:
+The file must start with "OPAL OBJ DESCRIPTION 1".
+An object description starts with "BEGIN OBJ" and ends with "END".
+It has the following attributes:
 .Pp
 .Bl -tag -width indent -compact
 .It Ic ART
@@ -183,7 +182,8 @@ dice format
 .El
 .Sh NOTES
 .Nm opal
-requires ncurses. To compile it also requires
+requires ncurses.
+To compile it also requires
 .Xr yacc 1
 and
 .Xr lex 1
@@ -204,11 +204,16 @@ repository contains the previous development history of
 .Nm opal
 .Sh AUTHORS
 .Nm opal
-was written by Esote.
+was written by
+.An Esote
 .Sh COPYRIGHT
-Copyright (c) 2019 Esote. There is NO warranty. You may redistribute this
-software under the terms of the GNU Affero General Public License. For more
-information see the LICENSE file.
+Copyright (c) 2019 Esote.
+There is NO warranty.
+You may redistribute this software under the terms of the GNU Affero General
+Public License.
+For more information see the LICENSE file.
 .Sh BUGS
-The game window should not be resized during play. This may corrupt the display.
+The game window should not be resized during play.
+This may corrupt the display.
+.Pp
 Fatal errors do not bother to reset the terminal.
