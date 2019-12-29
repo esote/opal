@@ -56,7 +56,7 @@ DESCRIPTIONS GRAMMAR
 	The NPC and object descriptions file are used to generate NPCs and
 	objects during the game. They follow a custom grammar.
 
-	Dice are formatted with integers as base+dicedsides.
+	Dice are formatted with integers as base+dicedsides. For example 3+5d4.
 
 	NPCs
 

@@ -14,7 +14,7 @@
 .\" You should have received a copy of the GNU Affero General Public License
 .\" along with this program.  If not, see <https://www.gnu.org/licenses/>.
 .\"
-.Dd $Mdocdate: May 10 2019$
+.Dd $Mdocdate: December 29 2019$
 .Dt OPAL 6
 .Os
 .Sh NAME
@@ -117,9 +117,15 @@ during the game.
 They follow a custom grammar.
 .Pp
 Dice are formatted with integers as \fIbase\fR+\fIdice\fRd\fIsides\fR.
+For example
+.Dq 3+5d4 .
 .Ss NPCs
-The file must start with "OPAL NPC DESCRIPTION 1".
-An NPC description starts with "BEGIN NPC" and ends with "END".
+The file must start with
+.Dq OPAL NPC DESCRIPTION 1 .
+An NPC description starts with
+.Dq BEGIN NPC
+and ends with
+.Dq END .
 It has the following attributes:
 .Pp
 .Bl -tag -width indent -compact
@@ -131,7 +137,9 @@ one of BLACK, BLUE, CYAN, GREEN, MAGENTA, RED, WHITE, or YELLOW.
 .It Ic DAM
 dice format
 .It Ic DESC
-multi-line NPC description, ending with '.' on its own line.
+multi-line NPC description, ending with
+.Sq \&.
+on its own line.
 .It Ic HP
 dice format
 .It Ic NAME
@@ -144,8 +152,11 @@ dice format
 any single character
 .El
 .Ss Objects
-The file must start with "OPAL OBJ DESCRIPTION 1".
-An object description starts with "BEGIN OBJ" and ends with "END".
+The file must start with
+.Dq OPAL OBJ DESCRIPTION 1 .
+An object description starts with
+.Dq BEGIN OBJ and ends with
+.Dq END .
 It has the following attributes:
 .Pp
 .Bl -tag -width indent -compact
@@ -160,7 +171,9 @@ dice format
 .It Ic DEF
 dice format
 .It Ic DESC
-multi-line object description, ending in '.' on its own line.
+multi-line object description, ending in
+.Sq \&.
+on its own line.
 .It Ic DODGE
 dice format
 .It Ic HIT
@@ -201,11 +214,11 @@ Required object descriptions file
 My
 .Cm coms327
 repository contains the previous development history of
-.Nm opal
+.Nm opal .
 .Sh AUTHORS
 .Nm opal
 was written by
-.An Esote
+.An Esote .
 .Sh COPYRIGHT
 Copyright (c) 2019 Esote.
 There is NO warranty.
